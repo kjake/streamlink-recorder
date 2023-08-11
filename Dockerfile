@@ -20,6 +20,10 @@ RUN apt-get update && apt-get install gosu && apt-get install python3-pip -y
 
 RUN pip3 install --upgrade git+https://github.com/streamlink/streamlink.git@${streamlinkCommit}
 
+RUN apt-get update -y && \
+    apt-get install -y ffmpeg && \
+	apt-get install -y jq
+	
 RUN  echo 'export PATH="${HOME}/.local/bin:${PATH}"'
 
 RUN mkdir /home/download
