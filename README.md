@@ -24,7 +24,7 @@ services:
       - streamLink=twitch.tv/urtwitchstreamer
       - streamQuality=best
       - streamOptions=--twitch-disable-hosting --twitch-disable-ads
-      - uid=*
+      - uid=
       - gid=
       - TZ=Asia/Seoul
 ```
