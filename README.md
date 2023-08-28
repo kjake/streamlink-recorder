@@ -1,6 +1,6 @@
 # docker-streamlink-recorder
 
-Automated Dockerfile to record livestreams with streamlink
+Automated Dockerfile to record livestreams with streamlink forked from lauwarm/streamlink-recorder
 
 ## Description
 
@@ -10,14 +10,23 @@ This is a Docker Container to record a livestream. It uses the official [Python 
 
 To run the Container:
 
-```bash
-docker run -v /path/to/vod/folder/:/home/download -e streamLink='' -e streamQuality='' -e streamName='' -e streamOptions='' -e uid='' -e gid='' lauwarm/streamlink-recorder
 ```
-
-Example:
-
-```bash
-docker run -v /home/:/home/download -e streamLink='twitch.tv/twitch' -e streamQuality='best' -e streamName='twitch' -e streamOptions='--twitch-disable-reruns' -e uid='1001' -e gid='1001' lauwarm/streamlink-recorder
+version: "3"
+services:
+  record:
+   image: ghcr.io/kimpig/streamlink-recorder-mp4:main
+   container_name: Streamlink-Recorder
+   restart: unless-stopped
+   volumes:
+      - /volume1/docker/Twitch-recorder/poqrs3077:/home/download
+   environment:
+      - streamName=urtwitchstreamer
+      - streamLink=twitch.tv/urtwitchstreamer
+      - streamQuality=best
+      - streamOptions=--twitch-disable-hosting --twitch-disable-ads
+      - uid=*
+      - gid=
+      - TZ=Asia/Seoul
 ```
 
 ## Notes
@@ -42,4 +51,4 @@ docker run -v /home/:/home/download -e streamLink='twitch.tv/twitch' -e streamQu
 
 The File will be saved as `streamName - Year-Month-Day HourMinuteSecond - streamTitle.mp4`
 
-Also, The File format is MP4, not TS (depending on ffmpeg)
+Also, The File format will be MP4, not TS (depending on ffmpeg)
