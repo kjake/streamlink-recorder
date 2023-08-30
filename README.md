@@ -52,4 +52,6 @@ services:
 
 `gid` - GROUP ID, map to your desired Group ID (fallback to 9001)
 
-The stream file will be named as `streamName - Year-Month-Day HourMinuteSecond - streamTitle.mp4` and remuxed into mp4 using ffmpeg.
+The stream file will be named as `streamName - Year-Month-Day HourMinuteSecond - streamTitle.mkv`.
+
+#### Working on mp4 remuxing.
