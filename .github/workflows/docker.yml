@@ -1,0 +1,29 @@
+name: Docker
+
+on:
+  schedule:
+    - cron: '0 6 * * *'
+  push:
+    branches:
+      - master
+
+env:
+  # TODO: Change variable to your image's name.
+  IMAGE_NAME: kjake/streamlink-recorder
+
+jobs:
+  push:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@main
+
+      - name: Build image
+        run: docker build . --file Dockerfile --tag $IMAGE_NAME:latest
+
+      - name: Log into registry
+        run: echo "${{ secrets.DOCKER_PASSWORD }}" | docker login --username ${{ secrets.DOCKER_USERNAME }} --password-stdin
+
+      - name: Push image
+        run: |
+          docker image push $IMAGE_NAME:latest

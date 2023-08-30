@@ -10,5 +10,5 @@ while [ true ]; do
 	streamTitle=$(echo $streamInfo | jq -r '.metadata.title')
 	# Download and convert stream
 	streamlink $streamOptions $streamLink $streamQuality -O | ffmpeg -i pipe:0 -c:v copy -c:a copy "/home/download/${streamName} - ${streamDate} - ${streamTitle}.mp4"
-	sleep 60s
+	sleep ${streamPoll:-60}s
 done
