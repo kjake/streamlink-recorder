@@ -52,6 +52,4 @@ services:
 
 `gid` - GROUP ID, map to your desired Group ID (fallback to 9001)
 
-The File will be saved as `streamName - Year-Month-Day HourMinuteSecond - streamTitle.mp4`
-
-Also, The File format will be MP4, not TS (depending on ffmpeg)
+The stream file will be named as `streamName - Year-Month-Day HourMinuteSecond - streamTitle.mp4` and remuxed into mp4 using ffmpeg.
