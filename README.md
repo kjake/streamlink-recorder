@@ -18,14 +18,14 @@ services:
    container_name: Streamlink-Recorder
    restart: unless-stopped
    volumes:
-      - /volume1/docker/Twitch-recorder/poqrs3077:/home/download
+      - /urdownloadfolder:/home/download
    environment:
       - streamName=urtwitchstreamer
       - streamLink=twitch.tv/urtwitchstreamer
       - streamQuality=best
       - streamOptions=--twitch-disable-hosting --twitch-disable-ads
-      - uid=
-      - gid=
+      - uid=1000
+      - gid=1000
       - TZ=Asia/Seoul
 ```
 
