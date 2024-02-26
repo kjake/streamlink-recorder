@@ -20,10 +20,10 @@ services:
    volumes:
       - /urdownloadfolder:/home/download
    environment:
-      - streamName=urtwitchstreamer
-      - streamLink=twitch.tv/urtwitchstreamer
+      - streamName=STREAMNAME
+      - streamLink=STREAMURL
       - streamQuality=best
-      - streamOptions=--twitch-disable-hosting --twitch-disable-ads
+      - streamOptions=OPTIONS
       - uid=1000
       - gid=1000
       - TZ=Asia/Seoul
@@ -43,7 +43,7 @@ services:
 
 `streamName` - name for the stream.
 
-`streamOptions` - streamlink flags (--twitch-disable-reruns, separated by space, see [Plugins](https://streamlink.github.io/plugins.html))
+`streamOptions` - streamlink flags (--twitch-disable-hosting --twitch-disable-ads, separated by space, see [Plugins](https://streamlink.github.io/plugins.html))
 
 `uid` - USER ID, map to your desired User ID (fallback to 9001)
 
@@ -51,4 +51,4 @@ services:
 
 The File will be saved as `streamName - Year-Month-Day HourMinuteSecond - streamTitle.mp4`
 
-Also, The File format will be MP4, not TS (depending on ffmpeg)
+Also, format will be MP4, not TS (depending on ffmpeg)
