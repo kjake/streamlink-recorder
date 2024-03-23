@@ -1,7 +1,7 @@
 FROM python:latest
-LABEL maintainer="lauwarm@mailbox.org"
+LABEL maintainer=kjake
 
-ENV streamlinkCommit=010364de80e3555b293c9fdd8a57e26c79e16751
+ENV streamlinkCommit=8d73b096066e3a84af4057f5aa589f7a65e5ab34
 #ENV streamlinkVersion=6.0.1
 #ENV PATH "${HOME}/.local/bin:${PATH}"
 
