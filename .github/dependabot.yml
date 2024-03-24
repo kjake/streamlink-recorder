@@ -8,8 +8,16 @@ updates:
   - package-ecosystem: "docker" # See documentation for possible values
     directory: "/" # Location of package manifests
     schedule:
-      interval: "weekly"
+      interval: "daily"
+    reviewers:
+      - "kjake"
+    assignees:
+      - "kjake"
   - package-ecosystem: "github-actions" # See documentation for possible values
     directory: "/.github/" # Location of package manifests
     schedule:
-      interval: "weekly"
+      interval: "daily"
+    reviewers:
+      - "kjake"
+    assignees:
+      - "kjake"

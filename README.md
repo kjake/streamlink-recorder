@@ -1,16 +1,14 @@
-# docker-streamlink-recorder
-
-Automated Dockerfile to record livestreams as H.264/MP4 videos using [streamlink](https://github.com/streamlink/streamlink). Forked from [KimPig/streamlink-recorder-mp4](https://github.com/KimPig/streamlink-recorder-mp4).
-
 ## Description
 
-This is a Docker Container to record a livestream. It uses the official [Python Image](https://hub.docker.com/_/python) with the Tag *latest*  , installs [streamlink](https://github.com/streamlink/streamlink) and uses the Script [streamlink-recorder.sh](https://raw.githubusercontent.com/lauwarm/docker-streamlink-recorder/main/streamlink-recorder.sh) to periodically check if the stream is live.
+This is a Docker Container to record a livestream into a MP4 file. It uses the official [Python Image](https://hub.docker.com/_/python) with the Tag *alpine*, installs [streamlink](https://github.com/streamlink/streamlink) and uses the Script [streamlink-recorder.sh](https://raw.githubusercontent.com/lauwarm/docker-streamlink-recorder/main/streamlink-recorder.sh) to periodically check if the stream is live.
 
-## Usage
+> [!WARNING]
+> I have been testing and using this with Twitch only, which uses AAC audio streams. This implementation is assuming AAC audio and running a minor converstion on the audio stream to be more compatible with the MP4 container.
 
-To run the Container:
+## Usage Example
 
-```
+docker-compose.yaml:
+```yaml
 version: "3"
 services:
   record:
@@ -30,6 +28,22 @@ services:
       - TZ=Asia/Seoul
 ```
 
+docker on cli:
+```shell
+docker run -d \
+  --name='Streamlink-Recorder' \
+  -e TZ='Asia/Seoul' \
+  -e streamLink='twitch.tv/urtwitchstreamer' \
+  -e streamName='urtwitchstreamer' \
+  -e streamQuality='best' \
+  -e streamOptions='--twitch-disable-hosting --twitch-disable-ads' \
+  -e streamPoll=60 \
+  -e gid=9001 \
+  -e uid=9001 \
+  -v /volume1/docker/Twitch-recorder/urtwitchstreamer:/home/download:rw \
+  --restart=unless-stopped kjake/streamlink-recorder
+```
+
 ## Notes
 
 `/home/download` - the place where the vods will be saved. Mount it to a desired place with `-v` option.
@@ -44,7 +58,7 @@ services:
 
 `streamName` - name for the stream.
 
-`streamOptions` - streamlink flags (--twitch-disable-reruns, separated by space, see [Plugins](https://streamlink.github.io/plugins.html))
+`streamOptions` - streamlink flags (`--twitch-disable-reruns`, separated by space, see [Plugins](https://streamlink.github.io/plugins.html))
 
 `streamPoll` - freqency (in seconds) to poll `streamLink` for a new stream.
 
@@ -52,4 +66,15 @@ services:
 
 `gid` - GROUP ID, map to your desired Group ID (fallback to 9001)
 
-The stream file will be named as `streamName - Year-Month-Day HourMinuteSecond - streamTitle.mp4`.
+> [!NOTE]
+> The stream file will be named as `streamName - Year-Month-Day HourMinuteSecond - streamTitle.mp4`.
+
+## Acknowledgments
+- Thanks to [@KimPig](https://github.com/KimPig/streamlink-recorder-mp4) for the original idea for an MP4 container.
+- Thanks to [@lauwarm](https://github.com/lauwarm/docker-streamlink-recorder) for the original streamlink container.
+
+## Contributions
+
+If you see out of date documentation, things aren't working, have an idea, etc., you can help out by either:
+- creating an issue, or
+- sending a pull request with modifications

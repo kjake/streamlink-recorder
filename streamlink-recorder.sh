@@ -9,11 +9,6 @@ while [ true ]; do
 	# Extract stream title from JSON
 	streamTitle=$(echo $streamInfo | jq -r '.metadata.title')
 	# Download and convert stream
-	#
-	# VAAPI for later
-	# streamlink $streamOptions $streamLink $streamQuality --stdout | ffmpeg -init_hw_device vaapi=foo:/dev/dri/renderD128 -hwaccel vaapi -hwaccel_output_format vaapi -hwaccel_device foo -i pipe:0 -filter_hw_device foo -vf 'format=nv12|vaapi,hwupload' -c:v h264_vaapi -c:a copy -f mp4 -y "/home/download/${streamName} - ${streamDate} - ${streamTitle}.mp4"
-	#
-	#
-	streamlink $streamOptions $streamLink $streamQuality --stdout | ffmpeg -i pipe:0 -c:v libx264 -c:a copy -movflags +faststart -f mp4 -loglevel error -y "/home/download/${streamName} - ${streamDate} - ${streamTitle}.mp4"
+	streamlink $streamOptions $streamLink $streamQuality --stdout | ffmpeg -fflags +discardcorrupt -i pipe:0 -c copy -bsf:a aac_adtstoasc -f mp4 -y "/home/download/${streamName} - ${streamDate} - ${streamTitle}.mp4"
 	sleep ${streamPoll:-60}s
 done
