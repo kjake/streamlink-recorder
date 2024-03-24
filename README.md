@@ -1,6 +1,6 @@
 # docker-streamlink-recorder
 
-Automated Dockerfile to record livestreams with streamlink forked from KimPig/streamlink-recorder-mp4
+Automated Dockerfile to record livestreams as H.264/MP4 videos using [streamlink](https://github.com/streamlink/streamlink). Forked from [KimPig/streamlink-recorder-mp4](https://github.com/KimPig/streamlink-recorder-mp4).
 
 ## Description
 
@@ -52,6 +52,4 @@ services:
 
 `gid` - GROUP ID, map to your desired Group ID (fallback to 9001)
 
-The stream file will be named as `streamName - Year-Month-Day HourMinuteSecond - streamTitle.mkv`.
-
-#### Working on mp4 remuxing.
+The stream file will be named as `streamName - Year-Month-Day HourMinuteSecond - streamTitle.mp4`.
