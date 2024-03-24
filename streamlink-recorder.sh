@@ -6,9 +6,8 @@ while [ true ]; do
     streamDate=$(date +"%Y-%m-%d %Hh%Mm%Ss")
 	# Get stream info as JSON
 	streamInfo=$(streamlink $streamOptions $streamLink $streamQuality -j)
-		# Assume that, if streamInfo is empty, the stream is not live
-	    if [ ! -z "$streamInfo" ]; then
-
+	# Assume that, if streamInfo is empty or actually returns an error message, the stream is not live
+    if [ ! -z "$streamInfo" ] && ! echo "$streamInfo" | grep -q "error"; then
 		# Extract stream title from JSON
 		streamTitle=$(echo $streamInfo | jq -r '.metadata.title')
 
