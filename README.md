@@ -1,6 +1,6 @@
 ## Description
 
-This is a Docker Container to record a livestream into a MP4 file. It uses the official [Python Image](https://hub.docker.com/_/python) with the Tag *alpine*, installs [streamlink](https://github.com/streamlink/streamlink) and uses the Script [streamlink-recorder.sh](https://raw.githubusercontent.com/lauwarm/docker-streamlink-recorder/main/streamlink-recorder.sh) to periodically check if the stream is live.
+This is a Docker Container to record a livestream into a MP4 file. It uses the official [Alpine Image](https://hub.docker.com/_/alpine) with the Tag *latest*, installs [streamlink](https://github.com/streamlink/streamlink), [ffmpeg](https://github.com/FFmpeg/FFmpeg), and runs a modified version of the script [streamlink-recorder.sh](https://raw.githubusercontent.com/lauwarm/docker-streamlink-recorder/main/streamlink-recorder.sh) to periodically check if the stream is live.
 
 > [!WARNING]
 > I have been testing and using this with Twitch only, which uses AAC audio streams. This implementation is assuming AAC audio and running a minor conversion on the audio stream to be more compatible with the MP4 container.
