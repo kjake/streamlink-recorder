@@ -9,6 +9,6 @@ while [ true ]; do
 	# Extract stream title from JSON
 	streamTitle=$(echo $streamInfo | jq -r '.metadata.title')
 	# Download and convert stream
-	streamlink $streamOptions $streamLink $streamQuality --stdout | ffmpeg -i - -c:v libx264 -c:a copy "/home/download/${streamName} - ${streamDate} - ${streamTitle}.mp4"
+	streamlink $streamOptions $streamLink $streamQuality --stdout | ffmpeg -i pipe:0 -c:v libx264 -c:a copy -movflags +faststart -f mp4  -y "/home/download/${streamName} - ${streamDate} - ${streamTitle}.mp4"
 	sleep ${streamPoll:-60}s
 done
