@@ -13,6 +13,8 @@ while [ true ]; do
 
 		# Download and convert stream
 		streamlink $streamOptions $streamLink $streamQuality --stdout | ffmpeg -fflags +discardcorrupt -i pipe:0 -c copy -bsf:a aac_adtstoasc -f mp4 -loglevel error -y "/home/download/${streamName} - ${streamDate} - ${streamTitle}.mp4"
+	else
+		echo $streamInfo | jq -r '.error'
 	fi
 	sleep ${streamPoll:-60}s
 done
