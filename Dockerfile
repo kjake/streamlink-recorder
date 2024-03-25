@@ -6,7 +6,7 @@ COPY ./repositories /etc/apk/
 RUN apk add --update --no-cache && \
     # the following would be needed to support VAAPI, but essentially limits architectures to only amd64
     # intel-media-driver libva-intel-driver libva-vdpau-driver
-    apk add --no-cache gosu streamlink jq ffmpeg ca-certificates
+    apk add --no-cache gosu streamlink jq ffmpeg ca-certificates tzdata
 
 RUN mkdir /home/download /home/script /home/plugins && \
     rm -rf /var/cache/apk/* /tmp/* /var/tmp/
