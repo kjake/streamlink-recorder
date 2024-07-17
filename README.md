@@ -1,6 +1,6 @@
 ## Description
 
-This is a Docker Container to record a livestream. It uses the official [Alpine Image](https://hub.docker.com/_/alpine) with the Tag *latest*, installs [streamlink](https://github.com/streamlink/streamlink), and runs a modified version of the script [streamlink-recorder.sh](https://raw.githubusercontent.com/lauwarm/docker-streamlink-recorder/main/streamlink-recorder.sh) to periodically check if the stream is live.
+This is a Docker Container to record a livestream. It uses the official [Debian Image](https://hub.docker.com/_/debian) with the Tag *sid-slim*, installs [streamlink](https://github.com/streamlink/streamlink), and runs a modified version of the script [streamlink-recorder.sh](https://raw.githubusercontent.com/lauwarm/docker-streamlink-recorder/main/streamlink-recorder.sh) to periodically check if the stream is live.
 
 
 ## Usage Example
