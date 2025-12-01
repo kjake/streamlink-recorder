@@ -2,10 +2,18 @@ FROM kjake/base
 LABEL maintainer="kjake"
 
 RUN  apt-get -qq update && \
-     apt-get install -y --no-install-recommends streamlink jq tzdata wget gosu
-    # the following would be needed to support VAAPI, but essentially limits architectures to only amd64
-    # intel-media-driver libva-intel-driver libva-vdpau-driver
-   
+      apt-get install -y --no-install-recommends \
+         python3 \
+         python3-venv \
+         pipx \
+         tzdata \
+         gosu && \
+      pipx install --pip-args="--no-cache-dir" streamlink
+     # the following would be needed to support VAAPI, but essentially limits architectures to only amd64
+     # intel-media-driver libva-intel-driver libva-vdpau-driver
+
+ENV PATH="/root/.local/bin:${PATH}"
+
 RUN mkdir /home/download /home/script /home/plugins && \
     rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/
 
