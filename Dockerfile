@@ -3,6 +3,7 @@ LABEL maintainer="kjake"
 
 RUN  apt-get -qq update && \
       apt-get install -y --no-install-recommends \
+         build-essential \
          python3 \
          python3-venv \
          pipx \
