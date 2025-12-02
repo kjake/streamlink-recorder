@@ -4,6 +4,7 @@ LABEL maintainer="kjake"
 RUN  apt-get -qq update && \
       apt-get install -y --no-install-recommends \
          build-essential \
+         python3-dev \
          libxml2-dev \
          libxslt1-dev \
          python3 \

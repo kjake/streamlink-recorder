@@ -67,6 +67,21 @@ docker run -d \
 > [!NOTE]
 > The stream file will be named as `streamName - Year-Month-Day HourMinuteSecond - streamTitle.mkv`.
 
+## Building locally
+
+When building or running `pipx install streamlink` on architectures where a prebuilt `lxml` wheel is unavailable (for example, `s390x`), ensure the Python development headers and XML tooling are present so `lxml` can compile successfully:
+
+```shell
+apt-get update && \
+  apt-get install -y --no-install-recommends \
+    python3-dev \
+    libxml2-dev \
+    libxslt1-dev \
+    build-essential
+```
+
+The Dockerfile already installs these dependencies to keep the image build working across multiple architectures.
+
 ## Acknowledgments
 - Thanks to [@lauwarm](https://github.com/lauwarm/docker-streamlink-recorder) for the original streamlink container.
 
