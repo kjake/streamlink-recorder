@@ -5,7 +5,7 @@ RUN  apt-get -qq update && \
       apt-get install -y --no-install-recommends \
          build-essential \
          libxml2-dev \
-         libxslt-dev \
+         libxslt1-dev \
          python3 \
          python3-venv \
          pipx \
