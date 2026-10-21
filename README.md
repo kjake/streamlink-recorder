@@ -1,6 +1,6 @@
 ## Description
 
-This is a Docker Container to record a livestream. It uses the official [Debian Image](https://hub.docker.com/_/debian) with the Tag *sid-slim*, installs [streamlink](https://github.com/streamlink/streamlink), and runs a modified version of the script [streamlink-recorder.sh](https://raw.githubusercontent.com/lauwarm/docker-streamlink-recorder/main/streamlink-recorder.sh) to periodically check if the stream is live.
+This is a Docker Container to record a livestream. It uses the Chainguard [wolfi-base](https://images.chainguard.dev/directory/image/wolfi-base/overview) image, installs [streamlink](https://github.com/streamlink/streamlink), and runs a modified version of the script [streamlink-recorder.sh](https://raw.githubusercontent.com/lauwarm/docker-streamlink-recorder/main/streamlink-recorder.sh) to periodically check if the stream is live.
 
 
 ## Usage Example
@@ -69,18 +69,13 @@ docker run -d \
 
 ## Building locally
 
-When building or running `pipx install streamlink` on architectures where a prebuilt `lxml` wheel is unavailable (for example, `s390x`), ensure the Python development headers and XML tooling are present so `lxml` can compile successfully:
+The image is built for `linux/amd64` and `linux/arm64`, the architectures supported by Wolfi. Streamlink and its dependencies all provide prebuilt wheels for these platforms, so no compiler toolchain is needed.
+
+Packages are installed unpinned so each rebuild picks up the latest Wolfi fixes. Only the Python minor version is selected, through the `PYTHON_VERSION` build argument:
 
 ```shell
-apt-get update && \
-  apt-get install -y --no-install-recommends \
-    python3-dev \
-    libxml2-dev \
-    libxslt1-dev \
-    build-essential
+docker build --build-arg PYTHON_VERSION=3.14 -t streamlink-recorder .
 ```
-
-The Dockerfile already installs these dependencies to keep the image build working across multiple architectures.
 
 ## Acknowledgments
 - Thanks to [@lauwarm](https://github.com/lauwarm/docker-streamlink-recorder) for the original streamlink container.

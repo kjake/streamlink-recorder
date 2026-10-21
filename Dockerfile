@@ -1,33 +1,38 @@
-FROM kjake/base
-LABEL maintainer="kjake"
+ARG PYTHON_VERSION=3.14
 
-ARG BUILD_PACKAGES="build-essential \
-    python3-dev \
-    libxml2-dev \
-    libxslt1-dev"
-    
+FROM cgr.dev/chainguard/wolfi-base AS build
+ARG PYTHON_VERSION
+
+RUN apk add --no-cache \
+        python-${PYTHON_VERSION} \
+        py${PYTHON_VERSION}-pip
+
+# streamlink and its dependencies ship prebuilt wheels for amd64 and arm64,
+# so no compiler toolchain is needed. pip is only needed at build time.
+RUN python${PYTHON_VERSION} -m venv /opt/streamlink && \
+    /opt/streamlink/bin/pip install --no-cache-dir streamlink && \
+    /opt/streamlink/bin/pip uninstall -y pip
+
+FROM cgr.dev/chainguard/wolfi-base
+LABEL maintainer="kjake"
+ARG PYTHON_VERSION
+
 # the following packages would be needed to support VAAPI, but essentially limits architectures to only amd64
 # intel-media-driver libva-intel-driver libva-vdpau-driver
 
-RUN apt-get -qq update && \
-    apt-get install -y --no-install-recommends \
-        ${BUILD_PACKAGES} \
-        python3 \
-        python3-venv \
-        pipx \
+RUN apk add --no-cache \
+        python-${PYTHON_VERSION} \
         tzdata \
         jq \
         gosu
 
-RUN pipx install --pip-args="--no-cache-dir" streamlink --global && \
-    pipx ensurepath --global
+COPY --from=build /opt/streamlink /opt/streamlink
+ENV PATH="/opt/streamlink/bin:${PATH}"
 
-RUN apt-get -qq remove -y ${BUILD_PACKAGES}
+RUN addgroup -S -g 9001 streamlink && \
+    adduser -S -D -H -u 9001 -G streamlink streamlink
 
-RUN groupadd -r streamlink -g 9001 && useradd --no-log-init -r -g 9001 -u 9001 streamlink
-
-RUN mkdir /home/download /home/script /home/plugins && \
-    rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/
+RUN mkdir /home/download /home/script /home/plugins
 
 COPY ./streamlink-recorder.sh /home/script/
 COPY ./entrypoint.sh /home/script
