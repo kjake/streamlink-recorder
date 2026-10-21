@@ -6,6 +6,12 @@ on:
   push:
     branches:
       - main
+  pull_request:
+    types:
+      - closed
+    branches:
+      - main
+  workflow_dispatch:
 
 env:
   # TODO: Change variable to your image's name.
@@ -13,11 +19,23 @@ env:
 
 jobs:
   push:
+    # closed pull requests only build when they were actually merged; fork PRs
+    # get no secrets on pull_request events and are covered by the push trigger
+    if: >-
+      github.event_name != 'pull_request' ||
+      (github.event.pull_request.merged == true &&
+       github.event.pull_request.head.repo.full_name == github.repository)
+    # a merge can fire both push and pull_request; only the newest build of :latest matters
+    concurrency:
+      group: docker-publish
+      cancel-in-progress: true
     runs-on: ubuntu-latest
 
     steps:
       - name: Checkout the code
         uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.merge_commit_sha || github.sha }}
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v3
       - name: Set up Docker Buildx
@@ -30,6 +48,7 @@ jobs:
       - name: Build and push
         uses: docker/build-push-action@v5
         with:
+          context: .
           platforms: linux/amd64,linux/arm64
           tags: ${{ env.IMAGE_NAME }}:latest
           push: true
